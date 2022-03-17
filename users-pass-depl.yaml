@@ -1,0 +1,44 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:  
+  name: users-pass-config-file 
+data:  
+
+--- 
+
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: users-pass 
+spec: 
+  selector: 
+    matchLabels: 
+      app: users-pass 
+  replicas: 1 
+  template: 
+    metadata: 
+      labels: 
+        app: users-pass 
+    spec: 
+      containers: 
+      - name: users-pass 
+        image: ocebr/users:v1.0
+        imagePullPolicy: Always
+        ports: 
+        - containerPort: 8080
+
+--- 
+
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: users-pass-service 
+spec: 
+  selector: 
+    app: users-pass 
+  type: NodePort 
+  ports: 
+    - protocol: TCP 
+      port: 8080
+      nodePort: 30600 
+      targetPort: 8080 
