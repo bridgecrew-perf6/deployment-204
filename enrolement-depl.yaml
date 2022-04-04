@@ -3,6 +3,13 @@ kind: ConfigMap
 metadata:  
   name: enrolement-config-file 
 data:  
+  .env: |
+    HOST=0.0.0.0
+    PORT=8082
+    RUST_LOG=DEBUG
+    DATABASE_URL=postgres://postgres:postgres@postgres:5432/postgresdb
+    SECRET_KEY=la-sercret-key
+    JWT_SECRET=jwt-secret-key
 
 --- 
 
@@ -20,12 +27,23 @@ spec:
       labels: 
         app: enrolement 
     spec: 
+
+      volumes:
+        - name: enrolement-config-file-volume
+          configMap: 
+            name: enrolement-config-file 
+
+
       containers: 
       - name: enrolement 
-        image: ocebr/enrolement:v1.0
+        image: ocebr/enrolement:light
         imagePullPolicy: Always
         ports: 
         - containerPort: 8082
+        volumeMounts:
+          - name: enrolement-config-file-volume
+            mountPath: /app/.env
+            subPath: .env
 
 --- 
 
@@ -40,5 +58,5 @@ spec:
   ports: 
     - protocol: TCP 
       port: 8082 
-      nodePort: 30500 
+      nodePort: 30501
       targetPort: 8082 

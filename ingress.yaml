@@ -10,14 +10,14 @@ spec:
   - host: yoloooo.com
     http:
       paths:
-      - path: /enrolement
+      - path: /signup
         pathType: Prefix
         backend:
           service:
             name: enrolement-service 
             port:
               number: 8082
-      - path: /users
+      - path: /signin
         pathType: Prefix
         backend:
           service:
@@ -31,4 +31,11 @@ spec:
             name: address-book-service 
             port:
               number: 8084
+      - path: /front
+        pathType: Prefix
+        backend: 
+          service:
+            name: front-service
+            port:
+              number: 80
     

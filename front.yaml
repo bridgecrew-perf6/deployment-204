@@ -1,7 +1,7 @@
 apiVersion: v1 
 kind: ConfigMap 
 metadata:  
-  name: users-pass-config-file 
+  name: front-config-file 
 data:  
 
 --- 
@@ -9,36 +9,36 @@ data:
 apiVersion: apps/v1 
 kind: Deployment 
 metadata: 
-  name: users-pass 
+  name: front 
 spec: 
   selector: 
     matchLabels: 
-      app: users-pass 
+      app: front 
   replicas: 1 
   template: 
     metadata: 
       labels: 
-        app: users-pass 
+        app: front 
     spec: 
       containers: 
-      - name: users-pass 
-        image: ocebr/users:v1.0
+      - name: front 
+        image: ocebr/front:1.5
         imagePullPolicy: Always
         ports: 
-        - containerPort: 8080
+        - containerPort: 80
 
 --- 
 
 apiVersion: v1 
 kind: Service 
 metadata: 
-  name: users-pass-service 
+  name: front-service 
 spec: 
   selector: 
-    app: users-pass 
+    app: front 
   type: NodePort 
   ports: 
     - protocol: TCP 
-      port: 8080
-      nodePort: 30601 
-      targetPort: 8080 
+      port: 80 
+      nodePort: 30900 
+      targetPort: 80
