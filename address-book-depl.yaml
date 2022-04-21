@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap 
 metadata:  
   name: address-book-config-file 
-data:  
+
 
 --- 
 
@@ -22,7 +22,7 @@ spec:
     spec: 
       containers: 
       - name: address-book 
-        image: ocebr/address-book:v1.0
+        image: ocebr/address-book:v1.1
         imagePullPolicy: Always
         ports: 
         - containerPort: 8084
