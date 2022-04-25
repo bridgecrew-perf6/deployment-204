@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: reverse
   labels:
-    app: nginx
+    app: reverse
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: reverse
   replicas: 1
   template:
     metadata:
       labels:
-        app: nginx
+        app: reverse
     spec:
       containers:
         - name: nginx
-          image: reverse-proxy:1.13
+          image: reverse-proxy:1.18
           imagePullPolicy : IfNotPresent
           ports:
           - containerPort: 4201
@@ -29,14 +29,16 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx-custom
+  name: reverse-service
 spec:
   selector:
-    app: nginx
-  type: NodePort
+    app: reverse
+  type: ClusterIP
   ports:
   - protocol: TCP
-    port: 4201
+    port: 4000
     targetPort: 4201
-    nodePort: 30450
+    
+
+    
     
