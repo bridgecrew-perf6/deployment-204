@@ -22,7 +22,7 @@ spec:
     spec: 
       containers: 
       - name: address-book 
-        image: ocebr/address-book:v1.1
+        image: ocebr/address-book:v1.2
         imagePullPolicy: Always
         ports: 
         - containerPort: 8084
