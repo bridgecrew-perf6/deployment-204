@@ -44,6 +44,11 @@ spec:
           - name: enrolement-config-file-volume
             mountPath: /app/.env
             subPath: .env
+      initContainers:
+      - name: init-enrolement
+        image: database_enrolement
+        command: [""]
+      
 
 --- 
 

@@ -15,7 +15,7 @@ spec:
     spec: 
       containers: 
       - name: users-pass 
-        image: ocebr/users:1.8
+        image: ocebr/users:1.9
         imagePullPolicy: Always
         ports: 
         - containerPort: 8080
