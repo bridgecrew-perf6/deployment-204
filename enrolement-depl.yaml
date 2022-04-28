@@ -1,8 +1,8 @@
-apiVersion: v1 
-kind: ConfigMap 
-metadata:  
-  name: enrolement-config-file 
-data:  
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enrolement-config-file
+data:
   .env: |
     HOST=0.0.0.0
     PORT=8082
@@ -11,57 +11,51 @@ data:
     SECRET_KEY=la-sercret-key
     JWT_SECRET=jwt-secret-key
 
---- 
-
-apiVersion: apps/v1 
-kind: Deployment 
-metadata: 
-  name: enrolement 
-spec: 
-  selector: 
-    matchLabels: 
-      app: enrolement 
-  replicas: 1 
-  template: 
-    metadata: 
-      labels: 
-        app: enrolement 
-    spec: 
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrolement
+spec:
+  selector:
+    matchLabels:
+      app: enrolement
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: enrolement
+    spec:
       volumes:
         - name: enrolement-config-file-volume
-          configMap: 
-            name: enrolement-config-file 
+          configMap:
+            name: enrolement-config-file
 
+      containers:
+        - name: enrolement
+          image: ocebr/enrolement:1.4
 
-      containers: 
-      - name: enrolement 
-        image: ocebr/enrolement:light-1.3
-        imagePullPolicy: Always
-        ports: 
-        - containerPort: 8082
-        volumeMounts:
-          - name: enrolement-config-file-volume
-            mountPath: /app/.env
-            subPath: .env
+          ports:
+            - containerPort: 8082
+          volumeMounts:
+            - name: enrolement-config-file-volume
+              mountPath: /app/.env
+              subPath: .env
       initContainers:
-      - name: init-enrolement
-        image: database_enrolement
-        command: [""]
-      
+        - name: init-enrolement
+          image: ocebr/initdb-enrolement:1.0
 
---- 
-
-apiVersion: v1 
-kind: Service 
-metadata: 
-  name: enrolement-service 
-spec: 
-  selector: 
-    app: enrolement 
-  type: NodePort 
-  ports: 
-    - protocol: TCP 
-      port: 8082 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enrolement-service
+spec:
+  selector:
+    app: enrolement
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8082
       nodePort: 30501
-      targetPort: 8082 
+      targetPort: 8082

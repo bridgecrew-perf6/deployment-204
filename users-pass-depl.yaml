@@ -1,37 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-pass
+spec:
+  selector:
+    matchLabels:
+      app: users-pass
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: users-pass
+    spec:
+      containers:
+        - name: users-pass
+          image: ocebr/users:1.9
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      initContainers:
+        - name: init-users
+          image: ocebr/initdb-users:1.0
 
-apiVersion: apps/v1 
-kind: Deployment 
-metadata: 
-  name: users-pass 
-spec: 
-  selector: 
-    matchLabels: 
-      app: users-pass 
-  replicas: 1 
-  template: 
-    metadata: 
-      labels: 
-        app: users-pass 
-    spec: 
-      containers: 
-      - name: users-pass 
-        image: ocebr/users:1.9
-        imagePullPolicy: Always
-        ports: 
-        - containerPort: 8080
-
---- 
-
-apiVersion: v1 
-kind: Service 
-metadata: 
-  name: users-pass-service 
-spec: 
-  selector: 
-    app: users-pass 
-  type: NodePort 
-  ports: 
-    - protocol: TCP 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-pass-service
+spec:
+  selector:
+    app: users-pass
+  type: NodePort
+  ports:
+    - protocol: TCP
       port: 8080
-      nodePort: 30601 
-      targetPort: 8080 
+      nodePort: 30601
+      targetPort: 8080

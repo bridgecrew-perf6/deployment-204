@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: ocebr/yolo-postgres:1.1
-          imagePullPolicy: "IfNotPresent"
+          image: ocebr/yolo-postgres:1.4
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           envFrom:
@@ -27,6 +27,4 @@ spec:
       volumes:
         - name: postgredb
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
-
-            
+            claimName: postgres-pvclaim
